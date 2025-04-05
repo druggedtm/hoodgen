@@ -1,22 +1,22 @@
-// --- Common Elements & Setup ---
-const md = window.markdownit(); // Markdown renderer
+// --- Common Elements & Setup (Should be included only one time, if needed) ---
+const md = window.markdownit ? window.markdownit() : null; // Markdown renderer
 
 function showLoading(outputElementId) {
     const outputElement = document.getElementById(outputElementId);
     if (outputElement) {
-        outputElement.innerHTML = 'Generating...';
-        outputElement.classList.add('loading');
+        outputElement.innerHTML = '<span class="loading-text">Generating...</span>';
+        outputElement.classList.add('loading-indicator');
     }
 }
 
 function hideLoading(outputElementId) {
      const outputElement = document.getElementById(outputElementId);
      if (outputElement) {
-        outputElement.classList.remove('loading');
+        outputElement.classList.remove('loading-indicator');
         // Clear the loading text if it's still there
-        if (outputElement.innerHTML === 'Generating...') {
+        if (outputElement.querySelector('.loading-text')) {
             outputElement.innerHTML = '';
-        }
+        } 
     }
 }
 
@@ -51,98 +51,60 @@ function displayError(outputElementId, error) {
      }
 }
 
-// --- Tab Switching Logic ---
-const tabButtons = document.querySelectorAll('.tab-button');
-const tabPanes = document.querySelectorAll('.tab-pane');
-
-tabButtons.forEach(button => {
-    button.addEventListener('click', () => {
-        const targetTab = button.getAttribute('data-tab');
-
-        // Update button active state
-        tabButtons.forEach(btn => btn.classList.remove('active'));
-        button.classList.add('active');
-
-        // Update pane active state
-        tabPanes.forEach(pane => {
-            if (pane.id === targetTab) {
-                pane.classList.add('active');
-            } else {
-                pane.classList.remove('active');
-            }
-        });
-    });
-});
-
-
 // --- Direct Chat Logic ---
-const chatInput = document.getElementById('chatInput');
-const sendChatButton = document.getElementById('sendChatButton');
-const chatOutput = document.getElementById('chatOutput');
+const chatInput = document.getElementById('chatInput'); // Only get elements that will be used here.
+const sendChatButton = document.getElementById('sendChatButton'); // Only get elements that will be used here.
+const chatOutput = document.getElementById('chatOutput'); // Only get elements that will be used here.
 
-function addMessageToChat(sender, message, isMarkdown = false) {
-    if (!chatOutput) return; // Check if element exists
-    const messageElement = document.createElement('div');
-    messageElement.classList.add('message', `${sender}-message`);
-
-    if (isMarkdown) {
-        messageElement.innerHTML = md.render(message);
-    } else {
-        messageElement.appendChild(document.createTextNode(message));
+function addMessageToChat(message, isUser = false) {
+    if(chatOutput){ // Check if element exists
+        const messageElement = document.createElement('div');
+        messageElement.classList.add('message');
+        if (isUser) {
+            messageElement.classList.add('user-message');
+        } else {
+            messageElement.classList.add('ai-message');
+        }
+        messageElement.textContent = message;
+        chatOutput.appendChild(messageElement);
+        chatOutput.scrollTop = chatOutput.scrollHeight;
     }
-
-    chatOutput.appendChild(messageElement);
-    chatOutput.scrollTop = chatOutput.scrollHeight;
 }
 
+// Send a chat message to the server
 async function sendChatMessage() {
-    const userMessage = chatInput.value.trim();
-    if (!userMessage || !sendChatButton) return;
+    const message = chatInput.value.trim();
+    if (message) {
+        addMessageToChat(message, true); // Add user message to chat
+        chatInput.value = ''; // Clear input
 
-    addMessageToChat('user', userMessage);
-    chatInput.value = '';
+        try {
+            const response = await fetch('/api/direct-chat', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ message: message })
+            });
 
-    const thinkingIndicator = document.createElement('div');
-    thinkingIndicator.classList.add('message', 'ai-message', 'thinking');
-    thinkingIndicator.textContent = 'AI is thinking...';
-    chatOutput.appendChild(thinkingIndicator);
-    chatOutput.scrollTop = chatOutput.scrollHeight;
-    sendChatButton.disabled = true;
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
 
-    try {
-        const response = await fetch("/api/direct-chat", {
-            method: "POST",
-            body: JSON.stringify({ message: userMessage }),
-            headers: { 'Content-Type': 'application/json' },
-        });
-
-        if (chatOutput.contains(thinkingIndicator)) chatOutput.removeChild(thinkingIndicator);
-
-        if (!response.ok) {
-            const errorData = await response.json().catch(async () => ({ error: `HTTP error ${response.status}`, details: await response.text() }));
-            throw errorData;
+            const data = await response.json();
+            addMessageToChat(data.response); // Add AI response to chat
+        } catch (error) {
+            console.error('Error sending chat message:', error);
+            addMessageToChat(`Error: ${error.error || error.message || 'Could not send message.'}`, false);
         }
-
-        const data = await response.json();
-        if (data && data.response) {
-            addMessageToChat('ai', data.response, true);
-        } else {
-            throw new Error('Received an empty or invalid response from the server.');
-        }
-
-    } catch (error) {
-        if (chatOutput.contains(thinkingIndicator)) {
-             chatOutput.removeChild(thinkingIndicator);
-        }
-        console.error("Error in sendChatMessage:", error);
-         addMessageToChat('ai', `Error: ${error.error || error.message || 'Could not get response.'}`);
-    } finally {
-         if (sendChatButton) sendChatButton.disabled = false;
     }
 }
 
 // Check if elements exist before adding listeners
 if (sendChatButton) {
+
+
+
     sendChatButton.addEventListener('click', sendChatMessage);
 }
 if (chatInput) {
@@ -153,6 +115,7 @@ if (chatInput) {
         }
     });
 }
+
 
 // --- Short News Writer Logic ---
 const generateNewsButton = document.getElementById('generateNewsButton');
@@ -242,8 +205,8 @@ if (generateTitlesButton && titleTopicInput && titleStyleSelect && titleLangSele
                  if (outputElement) {
                      hideLoading(outputId);
                      outputElement.innerHTML = `<ul>${titleList}</ul>`;
-                 }
-            } else {
+                }
+             } else {
                 throw new Error('Received invalid title data from server.');
             }
         } catch (error) {
@@ -252,6 +215,7 @@ if (generateTitlesButton && titleTopicInput && titleStyleSelect && titleLangSele
             generateTitlesButton.disabled = false;
         }
     });
+
 }
 
 // --- Caption Generator Logic ---
@@ -308,5 +272,5 @@ if (generateCaptionButton && captionTopicInput && captionPlatformSelect && capti
     });
 }
 
-// Log to confirm script execution finished without syntax errors
-console.log("main.js script finished execution.");
+//Log to confirm script execution finished without syntax errors
+console.log("main.js script finished execution");

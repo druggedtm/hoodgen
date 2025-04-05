@@ -16,6 +16,10 @@
       "dest": "/static/$1"
     },
     {
+      "src": "/chat",
+      "dest": "/static/chat.html"
+    },
+    {
       "src": "/api/(.*)",
       "dest": "server.ts"
     },
