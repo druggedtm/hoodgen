@@ -2,37 +2,41 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Direct Chat - Hoodgen AI</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hoodgen AI - Direct Chat</title>
     <link rel="stylesheet" href="/static/style.css">
     <link rel="icon" href="data:,">
 </head>
 
 <body>
-    <nav class="navbar">
-        <div class="container">
-            <a href="/" class="logo">Hoodgen AI</a>
-            <ul class="nav-links">
-                <li><a href="/">Home</a></li>
-                <li><a href="/chat">Chat</a></li>
-                <li><a href="#">Short News</a></li>
-                <li><a href="#">Long Content</a></li>
-                <li><a href="#">Medium Content</a></li>
-                <li><a href="#">Title Generator</a></li>
-                <li><a href="#">Research</a></li>
-                <li><a href="#">Caption Generator</a></li>
-                <li><a href="#">Login/Signup</a></li>
-            </ul>
+     <header class="navbar">
+        <div class="container nav-container">
+            <a href="/" class="nav-logo">
+                 <img src="/static/images/gemini.svg" alt="Hoodgen AI Logo" class="logo-svg"> Hoodgen AI
+            </a>
+             <nav>
+                 <ul class="nav-links">
+                     <li><a href="/">Home</a></li>
+                     <li><a href="/chat">Chat</a></li>
+                     <li><a href="/#tools">Tools</a></li>
+                     <li><a href="/#pricing">Pricing</a></li>
+                     <!-- Add other tool links later -->
+                      <li><a href="#" class="nav-button-secondary">Login</a></li>
+                     <li><a href="#" class="nav-button-primary">Sign Up</a></li>
+                 </ul>
+             </nav>
         </div>
-    </nav>
+    </header>
 
-    <main class="chat-page">
+    <main class="tool-page-main">
         <div class="container">
             <h2>Direct Chat</h2>
+
             <div id="chatOutput" class="chat-output-area">
-                <!-- Chat messages will be added here -->
+                <!-- Chat messages will be added here by JavaScript -->
             </div>
+
             <div class="chat-input-area">
                 <textarea id="chatInput" placeholder="Chat with AI..." rows="3"></textarea>
                 <button id="sendChatButton">Send</button>
@@ -42,17 +46,16 @@
 
     <footer class="footer">
         <div class="container">
-            <ul class="footer-links">
-                <li><a href="#">About</a></li>
-                <li><a href="#">Blog</a></li>
-                <li><a href="#">Contact</a></li>
-                <li><a href="#">Privacy</a></li>
-            </ul>
-            <div class="social-media-placeholder">Social Media</div>
+            <p>© 2024 Hoodgen AI. All Rights Reserved.</p>
+            <nav>
+                <a href="#">About</a> | <a href="#">Blog</a> | <a href="#">Contact</a> | <a href="#">Privacy Policy</a> | <a href="#">Social</a>
+            </nav>
         </div>
     </footer>
 
+    <!-- Markdown Script -->
+    <script src="https://unpkg.com/markdown-it@8.4.2/dist/markdown-it.min.js"></script>
+    <!-- Main JS Script - Needed for chat functionality -->
     <script src="/static/main.js"></script>
 </body>
-
 </html>
