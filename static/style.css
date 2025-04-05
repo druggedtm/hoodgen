@@ -1,203 +1,287 @@
 /* General body and layout styles */
 body {
-  margin: 24px 12px;
+  margin: 0; /* Remove default margin */
+  padding: 0;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   --accent-color: #076EFF; /* Blue accent */
   --ai-message-bg: #f0f4f9; /* Light blue-grey for AI messages */
   --user-message-bg: #e0e0e0; /* Light grey for user messages */
+  --tab-inactive-bg: #f1f3f4;
+  --tab-active-bg: #ffffff;
+  --tab-border: #dee2e6;
+  --tool-output-bg: #f8f9fa;
   color: #202124; /* Dark text color */
-  background-color: #f8f9fa; /* Light grey background for the page */
-}
-
-main, .api-key-banner {
-  width: 100%;
-  padding: 24px; /* Slightly more padding */
-  max-width: 650px; /* Increased max-width for chat */
-  margin: 20px auto; /* Added top/bottom margin */
-  border-radius: 12px; /* Softer radius */
-  box-shadow: 0 2px 10px rgba(0,0,0,0.1); /* Added a subtle shadow to main */
-}
-
-* {
-  box-sizing: border-box; /* Include padding and border in element's total width/height */
-  outline-color: var(--accent-color);
+  background-color: #e9ecef; /* Lighter grey background for the whole page */
 }
 
 main {
-  background-color: #fff; /* White background for the main chat area */
+  width: 100%;
+  padding: 20px 30px 30px 30px; /* Adjusted padding */
+  max-width: 800px; /* Wider for tools */
+  margin: 30px auto; /* Center with margin */
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  background-color: #fff; /* White background for the main area */
+}
+
+* {
+  box-sizing: border-box;
+  outline-color: var(--accent-color);
 }
 
 /* Headings */
-h1 {
+h1.title {
   display: flex;
   align-items: center;
-  gap: 10px; /* Increased gap */
-  margin: 0 0 10px 0; /* Added bottom margin */
-  font-size: 26px; /* Slightly larger */
+  gap: 12px;
+  margin: 0 auto 25px auto; /* Center and add bottom margin */
+  font-size: 28px;
   justify-content: center;
   color: #333;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #eee;
 }
 
-/* Keep the Gemini logo for the main title */
 .title::before {
   content: '';
   display: inline-block;
   background: url(images/gemini.svg); /* Ensure this path is correct */
-  width: 30px; /* Adjusted size */
-  height: 30px;
-  background-size: contain; /* Use contain to prevent cropping */
+  width: 35px;
+  height: 35px;
+  background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
 }
 
 h2 {
-  font-size: 20px;
-  color: #555;
-  text-align: center;
-  margin-bottom: 20px; /* Space below subtitle */
+  font-size: 22px;
+  color: #444;
+  margin-top: 0; /* Remove default top margin */
+  margin-bottom: 20px;
+  font-weight: 600;
+  text-align: left;
+}
+
+/* --- Tab Navigation --- */
+.tab-nav {
+  display: flex;
+  border-bottom: 1px solid var(--tab-border);
+  margin-bottom: 25px;
+}
+
+.tab-button {
+  padding: 12px 20px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  border-bottom: none;
+  background-color: var(--tab-inactive-bg);
+  font-size: 16px;
   font-weight: 500;
+  color: #555;
+  border-radius: 6px 6px 0 0; /* Rounded top corners */
+  margin-right: 5px;
+  margin-bottom: -1px; /* Overlap border-bottom */
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
-/* API Key Banner */
-.api-key-banner {
-  background-color: #FFDDB7;
-  font-weight: bold;
-  margin-bottom: 20px; /* Increased margin */
-  text-align: center; /* Center text */
-  font-size: 14px;
-  box-shadow: none; /* Remove shadow from banner */
+.tab-button:hover {
+  background-color: #e9ecef;
 }
 
-.api-key-banner a {
+.tab-button.active {
+  background-color: var(--tab-active-bg);
+  border-color: var(--tab-border);
   color: var(--accent-color);
-  text-decoration: none; /* Remove underline */
-}
-.api-key-banner a:hover {
-  text-decoration: underline; /* Add underline on hover */
-}
-.api-key-banner code {
-  background-color: rgba(0,0,0,0.05);
-  padding: 2px 4px;
-  border-radius: 4px;
+  font-weight: 600;
 }
 
+/* --- Tab Content --- */
+.tab-content .tab-pane {
+  display: none; /* Hide tabs by default */
+  animation: fadeIn 0.5s; /* Add fade-in animation */
+}
 
-/* --- Removed Old Form/Image Picker Styles --- */
-/* form { ... } */
-/* .image-picker { ... } */
-/* .image-choice { ... } */
-/* .prompt-box { ... } */
-/* .output { ... } */ /* Using new chat output styles */
-/* .output .tag { ... } */
+.tab-content .tab-pane.active {
+  display: block; /* Show active tab */
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
 
 
-/* --- Added New Chat Interface Styles --- */
-
-/* Chat Output Area */
+/* --- Chat Styles --- */
 .chat-output-area {
-  height: 400px; /* Fixed height for the chat area */
-  overflow-y: auto; /* Enable vertical scrolling */
+  height: 450px; /* Adjusted height */
+  overflow-y: auto;
   border: 1px solid #ddd;
   border-radius: 8px;
   padding: 15px;
-  margin-bottom: 20px; /* Space between chat history and input */
-  background-color: #ffffff; /* White background inside chat */
-  display: flex; /* Use flexbox for messages */
-  flex-direction: column; /* Stack messages vertically */
-  gap: 10px; /* Space between messages */
+  margin-bottom: 20px;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  gap: 12px; /* Adjusted gap */
 }
 
-/* Individual Messages */
 .message {
   padding: 10px 15px;
-  border-radius: 18px; /* Rounded corners for bubbles */
-  max-width: 80%; /* Max width for bubbles */
-  word-wrap: break-word; /* Wrap long words */
-  line-height: 1.5; /* Improve readability */
+  border-radius: 18px;
+  max-width: 85%; /* Slightly wider */
+  word-wrap: break-word;
+  line-height: 1.5;
 }
 
 .user-message {
   background-color: var(--user-message-bg);
   color: #333;
-  align-self: flex-end; /* Align user messages to the right */
-  border-bottom-right-radius: 4px; /* Slightly less round corner */
+  align-self: flex-end;
+  border-bottom-right-radius: 4px;
 }
 
 .ai-message {
   background-color: var(--ai-message-bg);
   color: #202124;
-  align-self: flex-start; /* Align AI messages to the left */
-  border-bottom-left-radius: 4px; /* Slightly less round corner */
+  align-self: flex-start;
+  border-bottom-left-radius: 4px;
 }
 
 .ai-message.thinking {
   font-style: italic;
   color: #666;
-  background-color: transparent; /* No background for thinking indicator */
+  background-color: transparent;
   align-self: flex-start;
+  padding: 5px 0; /* Adjusted padding */
 }
 
-/* Ensure code blocks within AI messages are styled */
 .ai-message pre {
   background-color: #e8e8e8;
-  padding: 10px;
+  padding: 12px;
   border-radius: 4px;
   overflow-x: auto;
   font-family: 'Courier New', Courier, monospace;
-  font-size: 14px;
+  font-size: 0.9em; /* Slightly smaller code font */
+  margin: 10px 0;
 }
-.ai-message code {
+.ai-message code:not(pre code) { /* Style inline code, not code within pre */
  font-family: 'Courier New', Courier, monospace;
-  background-color: rgba(0,0,0,0.05); /* Subtle background for inline code */
-  padding: 1px 3px;
+  background-color: rgba(0,0,0,0.07);
+  padding: 2px 5px;
   border-radius: 3px;
+  font-size: 0.9em;
 }
 .ai-message p:last-child {
-  margin-bottom: 0; /* Remove extra space at the end of AI message blocks */
+  margin-bottom: 0;
 }
 
-
-/* Chat Input Area */
 .chat-input-area {
   display: flex;
-  gap: 10px; /* Space between textarea and button */
-  align-items: flex-end; /* Align items to bottom */
+  gap: 10px;
+  align-items: flex-end;
 }
 
-textarea#chatInput { /* Specificity for the textarea */
-  flex-grow: 1; /* Allow textarea to take available space */
+textarea#chatInput {
+  flex-grow: 1;
   border: 1px solid #ccc;
   border-radius: 8px;
   padding: 12px 16px;
-  font-family: inherit; /* Use body font */
+  font-family: inherit;
   font-size: 16px;
-  resize: none; /* Disable manual resize */
-  min-height: 50px; /* Minimum height */
+  resize: none;
+  min-height: 50px;
   line-height: 1.4;
 }
 
 textarea#chatInput:focus {
   border-color: var(--accent-color);
-  box-shadow: 0 0 0 2px rgba(7, 110, 255, 0.2); /* Subtle focus ring */
+  box-shadow: 0 0 0 2px rgba(7, 110, 255, 0.2);
   outline: none;
 }
 
+/* --- Tool Form Styles --- */
+.tool-form {
+  display: grid;
+  gap: 15px; /* Space between form elements */
+  margin-bottom: 25px;
+}
 
-/* General Button Styles (already present, ensure they apply) */
+.tool-form label {
+  font-weight: 500;
+  color: #333;
+  font-size: 14px;
+  margin-bottom: -5px; /* Reduce space below label */
+}
+
+.tool-form textarea,
+.tool-form select {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 15px;
+  font-family: inherit;
+}
+
+.tool-form textarea {
+  resize: vertical; /* Allow vertical resize only */
+}
+
+.tool-form textarea:focus,
+.tool-form select:focus {
+   border-color: var(--accent-color);
+  box-shadow: 0 0 0 2px rgba(7, 110, 255, 0.2);
+  outline: none;
+}
+
+/* --- Tool Output Styles --- */
+.tool-output {
+  border: 1px dashed #ccc;
+  border-radius: 8px;
+  padding: 20px;
+  background-color: var(--tool-output-bg);
+  min-height: 100px;
+  white-space: pre-wrap; /* Preserve whitespace and wrap */
+  word-wrap: break-word;
+  font-size: 15px;
+  line-height: 1.6;
+  color: #333;
+}
+
+.tool-output.loading {
+  font-style: italic;
+  color: #666;
+}
+
+.tool-output ul {
+  padding-left: 20px;
+  margin: 0;
+}
+.tool-output li {
+  margin-bottom: 8px;
+}
+
+
+/* --- General Button Styles --- */
 button {
   border: 1px solid var(--accent-color);
   border-radius: 8px;
-  padding: 12px 16px;
-  font-family: unset;
+  padding: 12px 20px; /* Adjusted padding */
+  font-family: inherit;
   font-size: 16px;
   background-color: var(--accent-color);
   color: white;
   font-weight: bold;
   cursor: pointer;
   opacity: 1;
-  transition: opacity 0.2s ease; /* Smooth hover transition */
-  height: 50px; /* Match min-height of textarea */
+  transition: background-color 0.2s ease, opacity 0.2s ease;
+  height: 50px;
+  justify-self: start; /* Align button to the start in grid */
+}
+/* Specific alignment for chat button */
+.chat-input-area button {
+   justify-self: unset;
 }
 
 button:focus-visible {
@@ -206,28 +290,13 @@ button:focus-visible {
 }
 
 button:hover {
-  opacity: 0.85; /* Slightly more pronounced hover effect */
+  opacity: 0.9;
+  background-color: #055ecc; /* Darker blue on hover */
 }
 
-button:disabled { /* Style for disabled state if needed later */
-  opacity: 0.5;
+button:disabled {
+  opacity: 0.6;
   cursor: not-allowed;
+  background-color: #a0c7ff;
+   border-color: #a0c7ff;
 }
-
-/* Label style (can be removed if no labels are used) */
-/* label {
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  gap: 8px;
-  font-size: 12px;
-} */
-
-/* Input style (can be removed if only textarea is used) */
-/* input {
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  padding: 12px 16px;
-  font-family: unset;
-  font-size: 16px;
-} */

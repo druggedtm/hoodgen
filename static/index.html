@@ -2,40 +2,154 @@
 <html>
 
 <head>
-	<meta charset="UTF-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>Hoodgen AI - Chat</title>
-	<!-- Corrected path to CSS file -->
-	<link rel="stylesheet" href="/static/style.css">
-	<link rel="icon" href="data:,"> <!-- Add a minimal favicon to prevent /favicon.ico errors -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hoodgen AI - Tools</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="icon" href="data:,">
 </head>
 
 <body>
-	<main>
-		<!-- Removed the API Key banner -->
+    <main>
+        <h1 class="title">Hoodgen AI</h1>
 
-		<!-- Title remains -->
-		<h1 class="title">Hoodgen AI</h1>
-		<!-- Subtitle remains -->
-		<h2>Direct Chat</h2>
+        <!-- Tab Navigation -->
+        <div class="tab-nav">
+            <button class="tab-button active" data-tab="chat">Direct Chat</button>
+            <button class="tab-button" data-tab="news">Short News</button>
+            <button class="tab-button" data-tab="titles">Title Gen</button>
+            <button class="tab-button" data-tab="captions">Caption Gen</button>
+        </div>
 
-		<!-- Chat output area remains -->
-		<div id="chatOutput" class="chat-output-area">
-			<!-- Chat messages will be added here by JavaScript -->
-		</div>
+        <!-- Tab Content Area -->
+        <div class="tab-content">
 
-		<!-- Chat input area remains -->
-		<div class="chat-input-area">
-			<textarea id="chatInput" placeholder="Chat with AI..." rows="3"></textarea>
-			<button id="sendChatButton">Send</button>
-		</div>
+            <!-- Direct Chat Tab (Visible by default) -->
+            <div id="chat" class="tab-pane active">
+                <h2>Direct Chat</h2>
+                <div id="chatOutput" class="chat-output-area">
+                    <!-- Chat messages will be added here -->
+                </div>
+                <div class="chat-input-area">
+                    <textarea id="chatInput" placeholder="Chat with AI..." rows="3"></textarea>
+                    <button id="sendChatButton">Send</button>
+                </div>
+            </div>
 
-	</main>
+            <!-- Short News Writer Tab (Hidden by default) -->
+            <div id="news" class="tab-pane">
+                <h2>Short News Writer (Max 70 Words)</h2>
+                <div class="tool-form">
+                    <label for="newsTopic">Topic / Info / SourceLink:</label>
+                    <textarea id="newsTopic" rows="3" placeholder="Enter topic, info, or a URL"></textarea>
 
-	<!-- Keep markdown script -->
-	<script src="https://unpkg.com/markdown-it@8.4.2/dist/markdown-it.min.js"></script>
-	<!-- Corrected path to JS file -->
-	<script src="/static/main.js"></script>
+                    <label for="newsTone">Tone:</label>
+                    <select id="newsTone">
+                        <option value="Professional">Professional</option>
+                        <option value="Conversational">Conversational</option>
+                        <option value="Persuasive">Persuasive</option>
+                        <option value="Informative">Informative</option>
+                        <option value="Storytelling">Storytelling</option>
+                        <option value="News Tone">News Tone</option>
+                    </select>
+
+                    <label for="newsLang">Language:</label>
+                    <select id="newsLang">
+                        <option value="English">English</option>
+                        <option value="Spanish">Spanish</option>
+                         <option value="French">French</option>
+                         <option value="German">German</option>
+                        <!-- Add more languages as needed -->
+                    </select>
+
+                    <button id="generateNewsButton">Generate Short News</button>
+                </div>
+                <div id="newsOutput" class="tool-output">
+                    <!-- Generated news will appear here -->
+                </div>
+            </div>
+
+            <!-- Title Generator Tab (Hidden by default) -->
+            <div id="titles" class="tab-pane">
+                <h2>Catchy Title Generator</h2>
+                 <div class="tool-form">
+                    <label for="titleTopic">Article Content / Topic / Info:</label>
+                    <textarea id="titleTopic" rows="5" placeholder="Paste article text or describe the topic"></textarea>
+
+                    <label for="titleStyle">Style:</label>
+                    <select id="titleStyle">
+                        <option value="Engaging">Engaging</option>
+                        <option value="Professional">Professional</option>
+                        <option value="Clickbait">Clickbait</option>
+                        <option value="Listicle">Listicle</option>
+                        <option value="Question-Based">Question-Based</option>
+                        <option value="SEO-Friendly">SEO-Friendly</option>
+                    </select>
+
+                     <label for="titleLang">Language:</label>
+                     <select id="titleLang">
+                         <option value="English">English</option>
+                         <option value="Spanish">Spanish</option>
+                          <option value="French">French</option>
+                          <option value="German">German</option>
+                         <!-- Add more languages as needed -->
+                     </select>
+
+                    <button id="generateTitlesButton">Generate Titles (Upto 10)</button>
+                </div>
+                <div id="titlesOutput" class="tool-output">
+                    <!-- Generated titles will appear here -->
+                </div>
+            </div>
+
+            <!-- Caption Generator Tab (Hidden by default) -->
+            <div id="captions" class="tab-pane">
+                <h2>Social Media Caption Generator</h2>
+                 <div class="tool-form">
+                    <label for="captionTopic">Topic / Info / SourceLink:</label>
+                    <textarea id="captionTopic" rows="3" placeholder="Enter topic, info, or a URL"></textarea>
+
+                     <label for="captionPlatform">Platform:</label>
+                     <select id="captionPlatform">
+                         <option value="Instagram">Instagram</option>
+                         <option value="Facebook">Facebook</option>
+                         <option value="X">X (Twitter)</option>
+                         <option value="LinkedIn">LinkedIn</option>
+                     </select>
+
+                    <label for="captionTone">Tone:</label>
+                    <select id="captionTone">
+                         <option value="Engaging">Engaging</option>
+                        <option value="Humorous">Humorous</option>
+                        <option value="Informative">Informative</option>
+                        <option value="Inspirational">Inspirational</option>
+                        <option value="Professional">Professional</option>
+                    </select>
+
+                     <label for="captionLang">Language:</label>
+                     <select id="captionLang">
+                         <option value="English">English</option>
+                         <option value="Spanish">Spanish</option>
+                          <option value="French">French</option>
+                          <option value="German">German</option>
+                         <!-- Add more languages as needed -->
+                     </select>
+
+                    <button id="generateCaptionButton">Generate Caption</button>
+                </div>
+                <div id="captionOutput" class="tool-output">
+                    <!-- Generated caption will appear here -->
+                </div>
+            </div>
+
+        </div> <!-- End Tab Content Area -->
+
+    </main>
+
+    <!-- Markdown Script -->
+    <script src="https://unpkg.com/markdown-it@8.4.2/dist/markdown-it.min.js"></script>
+    <!-- Main JS Script -->
+    <script src="/static/main.js"></script>
 </body>
 
 </html>
