@@ -1,71 +1,80 @@
 import express from "express";
-import path from 'path'; // Import the 'path' module
+import path from 'path';
 import { ChatGoogleGenerativeAI } from '@langchain/google-genai';
 
-const port = process.env.PORT || 3000; // Vercel sets this
+// Create the Express app instance directly
+const app = express();
 
-const model = new ChatGoogleGenerativeAI({
-    // API key is read from GOOGLE_API_KEY env var automatically
-    model: "gemini-1.5-flash",
+// Middleware to parse JSON request bodies
+app.use(express.json());
+
+// Serve static files (CSS, JS) from the 'static' directory, mapping them to the '/static' URL path
+// Note: We will serve index.html explicitly from the root path below
+app.use('/static', express.static(path.join(__dirname, '..', 'static')));
+
+// API route for chat
+app.post("/api/direct-chat", async (req, res) => {
+    console.log("Received request for /api/direct-chat"); // Add log
+    try {
+        const { message } = req.body;
+        if (!message || typeof message !== 'string' || message.trim() === '') {
+            console.log("Validation failed: Message is required.");
+            return res.status(400).json({ error: "Message is required and must be a non-empty string." });
+        }
+
+        console.log("Initializing ChatGoogleGenerativeAI model...");
+        // *** Initialize the model HERE, inside the handler ***
+        const model = new ChatGoogleGenerativeAI({
+            // API key is read from GOOGLE_API_KEY env var automatically by the library
+            model: "gemini-1.5-flash",
+        });
+        console.log("Model initialized. Invoking with message:", message);
+
+        const aiResponse = await model.invoke(message);
+        const responseText = aiResponse?.content;
+
+        console.log("Received AI response content type:", typeof responseText);
+
+        if (typeof responseText !== 'string') {
+             console.error("Unexpected AI response format:", aiResponse);
+             return res.status(500).json({ error: "Received unexpected response format from AI." });
+        }
+
+        console.log("Sending AI response back to client.");
+        return res.json({ response: responseText });
+
+    } catch (error) {
+        console.error("Error inside /api/direct-chat:", error); // Log the actual error
+        const errorMessage = error instanceof Error ? error.message : "An internal server error occurred.";
+        // Send a more structured error response
+        return res.status(500).json({ error: "Failed to get response from AI.", details: errorMessage });
+    }
 });
 
-async function createServer() {
-    const app = express();
-
-    // Serve static files (still good practice for CSS, JS)
-    app.use('/static', express.static(path.join(__dirname, '..', 'static'))); // More specific path
-
-    // Middleware to parse JSON request bodies
-    app.use(express.json());
-
-    // API route
-    app.post("/api/direct-chat", async (req, res) => {
-        // ... (keep existing chat logic)
-        try {
-            const { message } = req.body;
-            if (!message || typeof message !== 'string' || message.trim() === '') {
-                return res.status(400).json({ error: "Message is required and must be a non-empty string." });
-            }
-            const aiResponse = await model.invoke(message);
-            const responseText = aiResponse?.content;
-            if (typeof responseText !== 'string') {
-                 console.error("Unexpected AI response format:", aiResponse);
-                 return res.status(500).json({ error: "Received unexpected response format from AI." });
-            }
-            return res.json({ response: responseText });
-        } catch (error) {
-            console.error("Error in /api/direct-chat:", error);
-            const errorMessage = error instanceof Error ? error.message : "An internal server error occurred.";
-            return res.status(500).json({ error: "Failed to get response from AI.", details: errorMessage });
+// Explicitly handle the root route to serve index.html
+app.get("/", (req, res) => {
+    // In Vercel serverless, __dirname points to the compiled output directory (e.g., .vercel/output/functions/server.func)
+    // We need to go up one level typically to find the root where static might be copied
+    // Update: Vercel often copies files referenced by `path.join` relative to the source file. Let's try a path relative to the likely compiled location.
+    // Assume 'static' is copied alongside the compiled server.ts output by Vercel's build process based on vercel.json
+    const indexPath = path.resolve(__dirname, '..', 'static', 'index.html');
+    // If the above doesn't work, Vercel might place static files at the root output.
+    // const indexPath = path.resolve(__dirname, '../..', 'static', 'index.html'); // Go up two levels
+    console.log(`Attempting to serve index.html for GET / from: ${indexPath}`);
+    res.sendFile(indexPath, (err) => {
+        if (err) {
+            console.error(`Error sending index.html from ${indexPath}:`, err);
+            // Provide a more informative error if file not found
+             if (err.message.includes('ENOENT')) {
+                res.status(404).send(`File not found at ${indexPath}. Check build output structure and path calculation.`);
+             } else {
+                res.status(500).send("Error loading page.");
+             }
+        } else {
+            console.log("Successfully sent index.html");
         }
     });
+});
 
-    // +++ Explicitly handle the root route +++
-    app.get("/", (req, res) => {
-        // Construct the absolute path to index.html
-        // In Vercel serverless, __dirname points to the compiled output directory
-        const indexPath = path.join(__dirname, '..', 'static', 'index.html');
-        console.log(`Attempting to serve index.html from: ${indexPath}`); // Log path
-        res.sendFile(indexPath, (err) => {
-            if (err) {
-                console.error("Error sending index.html:", err);
-                res.status(500).send("Error loading page.");
-            }
-        });
-    });
-    // +++ End of root route handler +++
-
-
-    // Vercel handles the listening part when deployed as a serverless function
-    // The app.listen is mostly for local development now.
-    if (process.env.NODE_ENV !== 'production') {
-      app.listen(port, () => {
-          console.log(`Server started locally: http://localhost:${port}`);
-      });
-    }
-}
-
-createServer();
-
-// Export the app for Vercel's Node.js runtime
-export default createServer; // Or just `export default app;` if createServer only creates `app`
+// Export the Express app instance for Vercel's Node.js runtime
+export default app;
