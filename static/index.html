@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<!-- Changed title -->
+	<title>Hoodgen AI - Chat</title>
+	<link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+	<main>
+		<!-- You can remove this banner once you are sure the API key is working -->
+		<div class="api-key-banner">
+			To get started with the Gemini API,
+			<a href="https://g.co/ai/idxGetGeminiKey" target="_blank">
+			get an API key</a> and set it in the <code>.idx/dev.nix</code> file
+			<br><br>
+			Then rebuild the enviroment and delete this banner
+		</div>
+
+		<!-- Changed title -->
+		<h1 class="title">Hoodgen AI</h1>
+		<!-- Added subtitle for the feature -->
+		<h2>Direct Chat</h2>
+
+		<!-- Removed the original form and image picker -->
+
+		<!-- Added container for chat output -->
+		<div id="chatOutput" class="chat-output-area">
+			<!-- Chat messages will be added here by JavaScript -->
+		</div>
+
+		<!-- Added chat input area -->
+		<div class="chat-input-area">
+			<textarea id="chatInput" placeholder="Chat with AI..." rows="3"></textarea>
+			<button id="sendChatButton">Send</button>
+		</div>
+
+	</main> <!-- Added closing main tag (was missing in original pasted code) -->
+
+	<!-- Keep markdown script - useful for formatting AI responses -->
+	<script src="https://unpkg.com/markdown-it@8.4.2/dist/markdown-it.min.js"></script>
+	<!-- Keep main script link -->
+	<script src="/main.js"></script>
+</body>
+
+</html>
