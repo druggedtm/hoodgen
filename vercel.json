@@ -2,19 +2,18 @@
   "version": 2,
   "builds": [
     {
-      "src": "server.ts",
+      "src": "server.ts", // The file containing our simple handler
       "use": "@vercel/node"
-    },
-    {
-      "src": "static/**",
-      "use": "@vercel/static"
     }
+    // We can temporarily remove the static build for this test if desired,
+    // but leaving it shouldn't hurt as long as routes point to server.ts.
+    // {
+    //    "src": "static/**",
+    //    "use": "@vercel/static"
+    // }
   ],
   "routes": [
-    {
-      "src": "/static/(.*)",
-      "dest": "/static/$1"
-    },
+    // Route all requests to the serverless function defined in server.ts
     {
       "src": "/(.*)",
       "dest": "server.ts"
