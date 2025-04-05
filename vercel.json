@@ -2,22 +2,31 @@
   "version": 2,
   "builds": [
     {
-      "src": "server.ts",
+      "src": "server.ts",    // Build the function
       "use": "@vercel/node"
     },
     {
-       "src": "static/**",
-       "use": "@vercel/static"
+      "src": "static/**",   // Build the static assets
+      "use": "@vercel/static"
     }
   ],
   "routes": [
+    // Route 1: Serve files from /static folder (CSS, JS)
     {
-       "src": "/static/(.*)",
-       "dest": "/static/$1"
+      "src": "/static/(.*)",
+      "dest": "/static/$1"
     },
+    // Route 2: Route API calls to the serverless function
     {
-      "src": "/(.*)",
+      "src": "/api/(.*)",  // Match any path starting with /api/
       "dest": "server.ts"
+    },
+    // Route 3: Serve index.html for the root path
+    {
+      "src": "/",
+      "dest": "/static/index.html" // Serve from the static build output
     }
+    // NOTE: Any requests not matching these routes will result in a 404
+    // by Vercel's Edge Network, without hitting your function.
   ]
 }
