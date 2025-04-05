@@ -2,29 +2,28 @@
   "version": 2,
   "builds": [
     {
-      "src": "server.ts",
+      "src": "server.ts",    
       "use": "@vercel/node"
     },
     {
-       "src": "static/**",
-       "use": "@vercel/static"
+      "src": "static/**",
+      "use": "@vercel/static"
     }
   ],
   "routes": [
-    {
-      "src": "/static/(.*)",
-      "dest": "/static/$1"
-    },
+   
     {
       "src": "/api/(.*)",
       "dest": "server.ts"
     },
+   
     {
-      "src": "/chat", 
-      "dest": "/static/chat.html"
+      "src": "/static/(.*)",
+      "dest": "/static/$1"
     },
+   
     {
-      "src": "/",   
+      "src": "/(.*)",
       "dest": "/static/index.html"
     }
   ]

@@ -1,311 +1,310 @@
 /* --- Reset & Base --- */
-body, html {
+*, *::before, *::after {
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Poppins', sans-serif; /* Use Poppins font */
   -webkit-font-smoothing: antialiased;
-  background-color: #f8f9fa; /* Light background for the whole page */
-  color: #343a40;
-  line-height: 1.6;
-}
-
-* {
-  box-sizing: border-box;
-}
-
-a {
-  color: #007bff;
-  text-decoration: none;
-}
-
-a:hover {
-  text-decoration: underline;
-}
-
-img {
-  max-width: 100%;
-  height: auto;
-}
-
-.container {
-  width: 100%;
-  max-width: 1140px; /* Standard container width */
-  margin: 0 auto;
-  padding: 0 15px;
+  -moz-osx-font-smoothing: grayscale;
+  background: linear-gradient(135deg, #eef6ff 0%, #f8f9fa 100%); /* Subtle gradient bg */
+  color: #495057; /* Softer text color */
+  line-height: 1.7;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; /* Align container top */
+  padding: 20px;
 }
 
 /* --- Variables --- */
 :root {
-  --accent-color: #007bff;
   --primary-color: #007bff;
+  --primary-dark: #0056b3;
   --secondary-color: #6c757d;
-  --text-color: #343a40;
   --light-bg: #f8f9fa;
   --white-bg: #ffffff;
-  --border-color: #dee2e6;
+  --border-color: #ced4da;
+  --shadow-sm: 0 2px 5px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --border-radius: 10px;
   --ai-message-bg: #e9ecef;
-  --user-message-bg: #007bff;
+  --user-message-bg: linear-gradient(135deg, var(--primary-color) 0%, #0056b3 100%);
   --user-message-text: #ffffff;
 }
 
-
-/* --- Navigation Bar --- */
-.navbar {
-  background-color: var(--white-bg);
-  padding: 15px 0;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-  position: sticky; /* Make navbar sticky */
-  top: 0;
-  left: 0;
+/* --- App Layout --- */
+.app-container {
   width: 100%;
-  z-index: 1000;
-}
-
-.nav-container {
+  max-width: 900px; /* Adjust width as needed */
+  background-color: var(--white-bg);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-md);
+  overflow: hidden; /* Contain elements */
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
 }
 
-.nav-logo {
-  font-size: 1.5em;
-  font-weight: bold;
-  color: var(--text-color);
+.app-header {
+  display: flex;
+  align-items: center;
+  padding: 20px 30px;
+  background-color: #f1f3f5; /* Slightly different header bg */
+  border-bottom: 1px solid var(--border-color);
+}
+
+.app-logo {
+  width: 35px;
+  height: 35px;
+  margin-right: 15px;
+}
+
+.app-header h1 {
+  font-size: 1.8em;
+  font-weight: 600;
+  color: #343a40;
+}
+
+.app-main {
+  padding: 25px 30px;
+  flex-grow: 1; /* Allow main content to grow */
+}
+
+.app-footer {
+  background-color: #f1f3f5;
+  padding: 15px 30px;
+  text-align: center;
+  font-size: 0.85em;
+  color: var(--secondary-color);
+  border-top: 1px solid var(--border-color);
+}
+
+/* --- Tab Navigation --- */
+.tab-nav {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 30px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid var(--border-color);
+  overflow-x: auto; /* Allow horizontal scroll on small screens */
+}
+
+.tab-button {
   display: flex;
   align-items: center;
   gap: 8px;
-  text-decoration: none;
-}
-.nav-logo:hover {
-  text-decoration: none;
-}
-
-.logo-svg {
-  width: 30px; /* Adjust size as needed */
-  height: 30px;
-}
-
-.nav-links {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  align-items: center;
-  gap: 20px; /* Space between nav items */
-}
-
-.nav-links a {
-  color: var(--text-color);
-  font-weight: 500;
-  transition: color 0.2s ease;
-}
-
-.nav-links a:hover,
-.nav-links a.active { /* Style for active page link if needed later */
-  color: var(--primary-color);
-  text-decoration: none;
-}
-
-.nav-button-primary,
-.nav-button-secondary {
-  padding: 8px 15px;
-  border-radius: 5px;
-  font-weight: 500;
-  text-decoration: none;
-  transition: background-color 0.2s ease, color 0.2s ease;
-  display: inline-block; /* Ensure padding works */
-  text-align: center;
-}
-.nav-button-primary:hover,
-.nav-button-secondary:hover {
-  text-decoration: none;
-}
-
-.nav-button-primary {
-  background-color: var(--primary-color);
-  color: var(--white-bg);
-  border: 1px solid var(--primary-color);
-}
-.nav-button-primary:hover {
-  background-color: #0056b3;
-  border-color: #0056b3;
-  color: var(--white-bg);
-}
-
-.nav-button-secondary {
-  background-color: transparent;
-  color: var(--primary-color);
-  border: 1px solid var(--primary-color);
-}
-.nav-button-secondary:hover {
-  background-color: var(--primary-color);
-  color: var(--white-bg);
-}
-
-
-/* --- Main Content Area --- */
-main {
-  padding-top: 40px; /* Space below navbar */
-  padding-bottom: 60px;
-}
-.homepage-main {
-  padding-top: 0; /* Homepage starts right below nav */
-}
-.tool-page-main .container {
-   background-color: var(--white-bg);
-   padding: 30px;
-   border-radius: 8px;
-   box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-}
-
-/* --- Homepage Sections --- */
-.homepage-main section {
-  padding: 60px 0;
-}
-.hero-section {
-  background-color: #eef6ff; /* Light blue hero */
-  text-align: center;
-  padding: 80px 0;
-}
-.hero-section h1 {
-  font-size: 2.8em;
-  margin-bottom: 15px;
-  color: #212529;
-}
-.hero-section .subtitle {
-  font-size: 1.2em;
-  color: var(--secondary-color);
-  margin-bottom: 30px;
-  max-width: 600px;
-  margin-left: auto;
-  margin-right: auto;
-}
-.cta-button {
-  display: inline-block;
-  background-color: var(--primary-color);
-  color: var(--white-bg);
-  padding: 12px 25px;
-  font-size: 1.1em;
-  font-weight: 500;
-  border-radius: 5px;
-  text-decoration: none;
-  transition: background-color 0.2s ease;
-}
-.cta-button:hover {
-  background-color: #0056b3;
-  text-decoration: none;
-  color: var(--white-bg);
-}
-.cta-button.large {
-  padding: 15px 35px;
-  font-size: 1.2em;
-}
-
-.why-hoodgen-section,
-.tools-section,
-.pricing-overview-section,
-.testimonials-section {
-  background-color: var(--white-bg);
-   border-bottom: 1px solid #eee;
-}
-.tools-section,
-.pricing-overview-section {
+  padding: 10px 18px;
+  cursor: pointer;
+  border: 1px solid transparent;
   background-color: var(--light-bg);
-}
-
-section h2 {
-  text-align: center;
-  font-size: 2.2em;
-  margin-bottom: 40px;
-  color: #333;
-}
-
-.tool-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 20px;
-  text-align: center;
-}
-.tool-card {
-  background-color: var(--white-bg);
-  padding: 25px;
-  border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  font-size: 1em;
   font-weight: 500;
+  color: var(--secondary-color);
+  border-radius: var(--border-radius);
+  transition: all 0.3s ease;
+  white-space: nowrap; /* Prevent button text wrapping */
 }
-.tool-card a {
-  color: var(--primary-color);
-  text-decoration: none;
+.tab-button .icon {
+  font-size: 1.2em;
 }
 
-.cta-section {
-   background-color: var(--primary-color);
-   color: var(--white-bg);
-   text-align: center;
+.tab-button:hover {
+  background-color: #e9ecef;
+  color: var(--primary-dark);
 }
-.cta-section h2 {
+
+.tab-button.active {
+  background-color: var(--primary-color);
   color: var(--white-bg);
-  margin-bottom: 30px;
-}
-.cta-section .cta-button {
-  background-color: var(--white-bg);
-  color: var(--primary-color);
-}
-.cta-section .cta-button:hover {
-   background-color: #eee;
+  font-weight: 600;
+  box-shadow: 0 2px 5px rgba(0, 123, 255, 0.2);
 }
 
-/* --- Footer --- */
-.footer {
-  background-color: #343a40;
-  color: #adb5bd;
-  padding: 30px 0;
-  text-align: center;
-  font-size: 0.9em;
+/* --- Tab Content --- */
+.tab-content-area {
+  position: relative;
 }
 
-.footer a {
-  color: #ced4da;
-  margin: 0 10px;
+.tab-pane {
+  display: none; /* Hide tabs by default */
+  opacity: 0;
+  transition: opacity 0.4s ease-in-out;
 }
 
-.footer a:hover {
-  color: var(--white-bg);
+.tab-pane.active {
+  display: block;
+  opacity: 1;
 }
 
+.tab-pane h2 {
+  font-size: 1.5em;
+  font-weight: 600;
+  color: var(--primary-dark);
+  margin-bottom: 5px;
+}
 
-/* --- Chat Styles (Copied and slightly adjusted from previous) --- */
-.tool-page-main h2 {
-  font-size: 1.8em;
-  text-align: left;
-  border-bottom: 1px solid #eee;
-  padding-bottom: 10px;
+.tool-description {
+  font-size: 0.95em;
+  color: var(--secondary-color);
   margin-bottom: 25px;
 }
 
-.chat-output-area {
-  height: 450px;
-  overflow-y: auto;
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
-  padding: 20px;
-  margin-bottom: 20px;
-  background-color: var(--white-bg);
+/* --- General Tool Layout --- */
+.tool-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Two columns */
+  gap: 30px;
+  align-items: flex-start;
+}
+
+/* Adjust for chat interface */
+.chat-interface {
+  display: flex;
+  flex-direction: column;
+  height: calc(100% - 50px); /* Adjust based on h2/p height */
+}
+
+.tool-form {
   display: flex;
   flex-direction: column;
   gap: 15px;
 }
 
+.tool-form label {
+  font-weight: 500;
+  font-size: 0.9em;
+  color: #495057;
+}
+
+.tool-form textarea,
+.tool-form select {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  font-size: 1em;
+  font-family: inherit;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.tool-form textarea:focus,
+.tool-form select:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.15);
+  outline: none;
+}
+
+.tool-form textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.generate-button {
+  border: none;
+  border-radius: var(--border-radius);
+  padding: 12px 25px;
+  font-family: inherit;
+  font-size: 1em;
+  background: var(--primary-color);
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  opacity: 1;
+  transition: background-color 0.2s ease, opacity 0.2s ease;
+  height: auto; /* Remove fixed height */
+  justify-self: start;
+  margin-top: 10px; /* Add space above button */
+}
+.generate-button:hover {
+  background: var(--primary-dark);
+  opacity: 1;
+}
+.generate-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  background-color: #a0c7ff;
+}
+
+.tool-output {
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  padding: 20px;
+  background-color: var(--light-bg);
+  min-height: 200px; /* Ensure minimum height */
+  height: 100%; /* Try to fill height */
+  overflow-y: auto; /* Scroll if content overflows */
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  font-size: 0.95em;
+  line-height: 1.7;
+  color: #343a40;
+  transition: background-color 0.3s ease;
+}
+.tool-output.loading {
+  display: flex; /* Center loading text */
+  justify-content: center;
+  align-items: center;
+  font-style: italic;
+  color: var(--secondary-color);
+  background-color: #e9ecef;
+}
+.tool-output .placeholder-text {
+   color: var(--secondary-color);
+   font-style: italic;
+}
+
+/* Specific styles for titles list */
+.tool-output.titles-list ul {
+  padding-left: 20px;
+  margin: 0;
+  list-style: decimal; /* Use numbered list */
+}
+.tool-output.titles-list li {
+  margin-bottom: 10px;
+  padding: 5px;
+  border-bottom: 1px dashed #ddd;
+}
+.tool-output.titles-list li:last-child {
+  border-bottom: none;
+}
+
+/* --- Chat Styles --- */
+.chat-output-area {
+  height: 50vh; /* Adjust height as desired */
+  max-height: 550px;
+  overflow-y: auto;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  padding: 20px;
+  margin-bottom: 15px;
+  background-color: var(--white-bg);
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  flex-grow: 1; /* Allow chat output to grow */
+}
+
 .message {
   padding: 10px 18px;
   border-radius: 20px;
-  max-width: 80%;
+  max-width: 85%;
   word-wrap: break-word;
-  line-height: 1.5;
+  line-height: 1.6;
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .user-message {
-  background-color: var(--user-message-bg);
+  background: var(--user-message-bg);
   color: var(--user-message-text);
   align-self: flex-end;
   border-bottom-right-radius: 5px;
@@ -313,7 +312,7 @@ section h2 {
 
 .ai-message {
   background-color: var(--ai-message-bg);
-  color: var(--text-color);
+  color: #343a40;
   align-self: flex-start;
   border-bottom-left-radius: 5px;
 }
@@ -324,10 +323,11 @@ section h2 {
   background-color: transparent;
   align-self: flex-start;
   padding: 5px 0;
+  animation: none; /* No animation for thinking */
 }
 
 .ai-message pre {
-  background-color: #d1d9e1; /* Slightly darker code background */
+  background-color: #d1d9e1;
   padding: 12px;
   border-radius: 4px;
   overflow-x: auto;
@@ -350,52 +350,77 @@ section h2 {
 .chat-input-area {
   display: flex;
   gap: 10px;
-  align-items: flex-end; /* Align button to bottom of textarea */
+  align-items: center; /* Center vertically */
+  padding-top: 10px; /* Add space above input */
 }
 
 textarea#chatInput {
   flex-grow: 1;
   border: 1px solid var(--border-color);
-  border-radius: 8px;
-  padding: 12px 16px;
+  border-radius: var(--border-radius);
+  padding: 10px 15px;
   font-family: inherit;
   font-size: 1em;
   resize: none;
-  min-height: 50px; /* Adjust as needed */
-  line-height: 1.4;
+  min-height: 48px;
+  max-height: 150px; /* Limit excessive growth */
+  line-height: 1.5;
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  overflow-y: auto; /* Allow scrolling within textarea */
 }
 
-textarea#chatInput:focus {
-  border-color: var(--primary-color);
-  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.15);
-  outline: none;
-}
-
-.chat-input-area button#sendChatButton {
-  border: none; /* Remove border if desired */
-  border-radius: 8px;
-  padding: 0 25px; /* Adjust padding */
+button#sendChatButton {
+  border: none;
+  border-radius: 50%; /* Make button round */
+  padding: 0; /* Remove padding */
   font-family: inherit;
-  font-size: 1em;
+  font-size: 1.5em; /* Larger icon */
   background-color: var(--primary-color);
   color: white;
-  font-weight: 500; /* Adjusted weight */
   cursor: pointer;
   opacity: 1;
-  transition: background-color 0.2s ease, opacity 0.2s ease;
-  height: 50px; /* Match textarea min-height */
-  flex-shrink: 0; /* Prevent button from shrinking */
+  transition: background-color 0.2s ease, opacity 0.2s ease, transform 0.1s ease;
+  height: 48px; /* Match input height */
+  width: 48px; /* Make width same as height */
+  flex-shrink: 0;
+  display: flex; /* Center icon */
+  justify-content: center;
+  align-items: center;
+  line-height: 1; /* Adjust line height for icon */
 }
-
-
-.chat-input-area button#sendChatButton:hover {
+button#sendChatButton:hover {
   opacity: 1;
-  background-color: #0056b3;
+  background-color: var(--primary-dark);
 }
-
-.chat-input-area button#sendChatButton:disabled {
-  opacity: 0.6;
+button#sendChatButton:active {
+  transform: scale(0.95); /* Click effect */
+}
+button#sendChatButton:disabled {
+  opacity: 0.5;
   cursor: not-allowed;
   background-color: #a0c7ff;
+  transform: scale(1);
+}
+
+/* --- Responsive Adjustments --- */
+@media (max-width: 768px) {
+  .tool-layout {
+      grid-template-columns: 1fr; /* Stack columns */
+  }
+  .app-main {
+      padding: 20px 15px;
+  }
+   .app-header {
+      padding: 15px;
+  }
+   .app-header h1 {
+      font-size: 1.5em;
+  }
+   .tab-button {
+      padding: 8px 12px;
+      font-size: 0.9em;
+   }
+   .chat-output-area {
+      height: 45vh;
+   }
 }

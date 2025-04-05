@@ -4,101 +4,180 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Hoodgen AI - Intelligent Content Tools</title>
+    <title>Hoodgen AI - All Tools</title>
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Stylesheet -->
     <link rel="stylesheet" href="/static/style.css">
     <link rel="icon" href="data:,">
 </head>
 
 <body>
-    <header class="navbar">
-        <div class="container nav-container">
-            <a href="/" class="nav-logo">
-                <img src="/static/images/gemini.svg" alt="Hoodgen AI Logo" class="logo-svg"> Hoodgen AI
-            </a>
-            <nav>
-                <ul class="nav-links">
-                    <li><a href="/">Home</a></li>
-                    <li><a href="/chat">Chat</a></li>
-                    <li><a href="/#tools">Tools</a></li> <!-- Link to tools section -->
-                    <li><a href="/#pricing">Pricing</a></li> <!-- Link to pricing section -->
-                    <!-- Add other tool links later -->
-                    <li><a href="#" class="nav-button-secondary">Login</a></li>
-                    <li><a href="#" class="nav-button-primary">Sign Up</a></li>
-                </ul>
+    <div class="app-container">
+        <header class="app-header">
+            <img src="/static/images/gemini.svg" alt="Hoodgen AI Logo" class="app-logo">
+            <h1>Hoodgen AI</h1>
+        </header>
+
+        <main class="app-main">
+            <!-- Tab Navigation -->
+            <nav class="tab-nav">
+                <button class="tab-button active" data-tab="chat">
+                    <span class="icon">💬</span> Direct Chat
+                </button>
+                <button class="tab-button" data-tab="news">
+                    <span class="icon">📰</span> Short News
+                </button>
+                <button class="tab-button" data-tab="titles">
+                     <span class="icon">✨</span> Title Gen
+                </button>
+                <button class="tab-button" data-tab="captions">
+                     <span class="icon">📱</span> Caption Gen
+                </button>
+                <!-- Add buttons for other tools later -->
             </nav>
-        </div>
-    </header>
 
-    <main class="homepage-main">
-        <!-- Hero Section -->
-        <section class="hero-section">
-            <div class="container">
-                <h1>Generate Content Smarter, Faster</h1>
-                <p class="subtitle">Leverage cutting-edge AI for research, writing, titles, captions, and direct chat.</p>
-                <a href="/chat" class="cta-button large">Start Chatting Now</a>
-            </div>
-        </section>
+            <!-- Tab Content Area -->
+            <div class="tab-content-area">
 
-        <!-- Why Hoodgen Section -->
-        <section class="why-hoodgen-section">
-             <div class="container">
-                <h2>Why Hoodgen AI?</h2>
-                <p>(Placeholder: Add compelling points comparing Hoodgen with others - speed, unique features like journalist mode, short news etc.)</p>
-             </div>
-        </section>
+                <!-- Direct Chat Tab -->
+                <section id="chat" class="tab-pane active">
+                    <h2>Direct Chat</h2>
+                    <p class="tool-description">Engage in seamless conversation with the AI.</p>
+                    <div class="chat-interface">
+                        <div id="chatOutput" class="chat-output-area"></div>
+                        <div class="chat-input-area">
+                            <textarea id="chatInput" placeholder="Enter your message..." rows="2"></textarea>
+                            <button id="sendChatButton" title="Send Message">➤</button>
+                        </div>
+                    </div>
+                </section>
 
-         <!-- Tools Section -->
-         <section id="tools" class="tools-section">
-             <div class="container">
-                <h2>Our AI Tools</h2>
-                <div class="tool-grid">
-                    <div class="tool-card"><a href="/chat">Direct Chat</a></div>
-                    <div class="tool-card">Short News</div>
-                    <div class="tool-card">Title Gen</div>
-                    <div class="tool-card">Caption Gen</div>
-                    <div class="tool-card">Long Content</div>
-                    <div class="tool-card">Medium Content</div>
-                    <div class="tool-card">Deep Research</div>
-                </div>
-             </div>
-         </section>
+                <!-- Short News Writer Tab -->
+                <section id="news" class="tab-pane">
+                    <h2>Short News Writer</h2>
+                    <p class="tool-description">Generate concise news snippets (max 70 words).</p>
+                    <div class="tool-layout">
+                        <div class="tool-form">
+                             <label for="newsTopic">Topic / Info / SourceLink:</label>
+                             <textarea id="newsTopic" rows="3" placeholder="e.g., 'latest AI developments' or a specific URL"></textarea>
 
-         <!-- Pricing Overview Section -->
-         <section id="pricing" class="pricing-overview-section">
-             <div class="container">
-                <h2>Simple Pricing</h2>
-                 <p>(Placeholder: Add basic pricing tier cards - Free, Pro, Business - with key features and a 'See Full Pricing' button)</p>
-             </div>
-         </section>
+                             <label for="newsTone">Tone:</label>
+                             <select id="newsTone">
+                                 <option value="Professional">Professional</option>
+                                 <option value="Conversational">Conversational</option>
+                                 <option value="Persuasive">Persuasive</option>
+                                 <option value="Informative">Informative</option>
+                                 <option value="Storytelling">Storytelling</option>
+                                 <option value="News Tone">News Tone</option>
+                             </select>
 
-         <!-- Testimonials Section -->
-         <section class="testimonials-section">
-              <div class="container">
-                <h2>What Users Say</h2>
-                 <p>(Placeholder: Add user testimonials or social proof)</p>
-              </div>
-         </section>
+                             <label for="newsLang">Language:</label>
+                             <select id="newsLang">
+                                 <option value="English">English</option>
+                                 <option value="Spanish">Spanish</option>
+                                 <option value="French">French</option>
+                                 <option value="German">German</option>
+                             </select>
 
-         <!-- CTA Section -->
-         <section class="cta-section">
-             <div class="container">
-                <h2>Ready to Get Started?</h2>
-                <a href="#" class="cta-button large">Sign Up Free</a>
-            </div>
-         </section>
+                             <button id="generateNewsButton" class="generate-button">Generate News</button>
+                         </div>
+                         <div id="newsOutput" class="tool-output">
+                             <span class="placeholder-text">Generated news snippet will appear here...</span>
+                         </div>
+                    </div>
+                </section>
 
-    </main>
+                <!-- Title Generator Tab -->
+                <section id="titles" class="tab-pane">
+                    <h2>Catchy Title Generator</h2>
+                    <p class="tool-description">Create up to 10 engaging titles for your content.</p>
+                     <div class="tool-layout">
+                        <div class="tool-form">
+                            <label for="titleTopic">Article Content / Topic / Info:</label>
+                            <textarea id="titleTopic" rows="5" placeholder="Paste text or describe the topic..."></textarea>
 
-    <footer class="footer">
-        <div class="container">
-            <p>© 2024 Hoodgen AI. All Rights Reserved.</p>
-            <nav>
-                <a href="#">About</a> | <a href="#">Blog</a> | <a href="#">Contact</a> | <a href="#">Privacy Policy</a> | <a href="#">Social</a>
-            </nav>
-        </div>
-    </footer>
+                            <label for="titleStyle">Style:</label>
+                            <select id="titleStyle">
+                                <option value="Engaging">Engaging</option>
+                                <option value="Professional">Professional</option>
+                                <option value="Clickbait">Clickbait</option>
+                                <option value="Listicle">Listicle</option>
+                                <option value="Question-Based">Question-Based</option>
+                                <option value="SEO-Friendly">SEO-Friendly</option>
+                            </select>
 
-    <!-- Link to JS (may not be needed for homepage initially) -->
-    <!-- <script src="/static/main.js"></script> -->
+                            <label for="titleLang">Language:</label>
+                            <select id="titleLang">
+                                <option value="English">English</option>
+                                <option value="Spanish">Spanish</option>
+                                <option value="French">French</option>
+                                <option value="German">German</option>
+                            </select>
+
+                            <button id="generateTitlesButton" class="generate-button">Generate Titles</button>
+                        </div>
+                        <div id="titlesOutput" class="tool-output titles-list">
+                             <span class="placeholder-text">Generated titles will appear here...</span>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Caption Generator Tab -->
+                <section id="captions" class="tab-pane">
+                    <h2>Social Media Caption Generator</h2>
+                    <p class="tool-description">Craft perfect captions with hashtags for social platforms.</p>
+                     <div class="tool-layout">
+                         <div class="tool-form">
+                            <label for="captionTopic">Topic / Info / SourceLink:</label>
+                            <textarea id="captionTopic" rows="3" placeholder="e.g., 'new product launch' or event details"></textarea>
+
+                            <label for="captionPlatform">Platform:</label>
+                            <select id="captionPlatform">
+                                <option value="Instagram">Instagram</option>
+                                <option value="Facebook">Facebook</option>
+                                <option value="X">X (Twitter)</option>
+                                <option value="LinkedIn">LinkedIn</option>
+                            </select>
+
+                            <label for="captionTone">Tone:</label>
+                            <select id="captionTone">
+                                <option value="Engaging">Engaging</option>
+                                <option value="Humorous">Humorous</option>
+                                <option value="Informative">Informative</option>
+                                <option value="Inspirational">Inspirational</option>
+                                <option value="Professional">Professional</option>
+                            </select>
+
+                            <label for="captionLang">Language:</label>
+                            <select id="captionLang">
+                                <option value="English">English</option>
+                                <option value="Spanish">Spanish</option>
+                                <option value="French">French</option>
+                                <option value="German">German</option>
+                            </select>
+
+                            <button id="generateCaptionButton" class="generate-button">Generate Caption</button>
+                        </div>
+                        <div id="captionOutput" class="tool-output">
+                             <span class="placeholder-text">Generated caption & hashtags will appear here...</span>
+                        </div>
+                    </div>
+                </section>
+
+            </div> <!-- End Tab Content Area -->
+        </main>
+
+        <footer class="app-footer">
+            <p>© 2024 Hoodgen AI. Built with Gemini.</p>
+        </footer>
+    </div><!-- End App Container -->
+
+    <!-- Markdown Script -->
+    <script src="https://unpkg.com/markdown-it@14.0.0/dist/markdown-it.min.js"></script> <!-- Updated version -->
+    <!-- Main JS Script -->
+    <script src="/static/main.js"></script>
 </body>
 </html>
