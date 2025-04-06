@@ -4,8 +4,14 @@
 /* === CSS Variables === */
 :root {
     --font-primary: 'Poppins', sans-serif;
-    --primary-hue: 217; /* Base Blue Hue */
-    --primary-saturation: 90%;
+    --primary-hue: 217; /* Base Blue Hue  */
+     --primary-saturation: 90%;
+
+    
+
+    
+    
+
     --primary-color-50: hsl(var(--primary-hue), var(--primary-saturation), 97%);
     --primary-color-100: hsl(var(--primary-hue), var(--primary-saturation), 94%);
     --primary-color-200: hsl(var(--primary-hue), var(--primary-saturation), 86%);
@@ -17,6 +23,21 @@
     --primary-color-800: hsl(var(--primary-hue), var(--primary-saturation), 40%);
     --primary-color-900: hsl(var(--primary-hue), var(--primary-saturation), 34%);
     --primary-color-950: hsl(var(--primary-hue), var(--primary-saturation), 22%);
+    
+    
+
+    &.theme-green{
+        --primary-hue: 140; /* Green Hue */
+         --primary-saturation: 60%;
+    }
+    &.theme-purple{
+        --primary-hue: 270; /* Purple Hue */
+         --primary-saturation: 70%;
+    }
+    &.theme-orange{
+        --primary-hue: 30; /* Orange Hue */
+         --primary-saturation: 85%;
+    }
 
     --gray-hue: 220; /* Base Gray Hue */
     --gray-saturation: 10%;
