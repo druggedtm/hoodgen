@@ -9,7 +9,7 @@
   # Sets environment variables in the workspace
   env = {    
     #TODO Get a API key from https://g.co/ai/idxGetGeminiKey 
-    GOOGLE_API_KEY = "AIzaSyAenZu4E6sBzIlLUYYwGCQd71BH7mRhyQc"; 
+    GOOGLE_API_KEY = "AIzaSyCgimO0aUC57tPc-6gABO6y1fQqgykFJPY"; 
   };
   # search for the extension on https://open-vsx.org/ and use "publisher.id"
   idx.extensions = [
